@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Playfair Display', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+#stage {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  background-color: #faf9f6;
+  transition: background-color 0.5s ease-in-out;
+}
+
+#noise {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+#content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  max-width: 900px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#apology {
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: #111111;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  transition: color 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+}
+
+#apology.show {
+  animation: apologyIn 0.2s ease-out forwards;
+}
+
+@keyframes apologyIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#apology.dramatic {
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 7vw, 4.5rem);
+}
+
+#apology.unhinged {
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: clamp(2.5rem, 10vw, 7rem);
+}
+
+#counter {
+  position: absolute;
+  bottom: 32px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.6;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #111111;
+  transition: color 0.5s ease-in-out;
+}
+
+#count {
+  margin-top: 4px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #111111;
+  opacity: 1;
+  transform: translate(0, 0) scale(0.5) rotate(0deg);
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.particle.fly {
+  opacity: 0;
+  transform: translate(0, -100px) scale(2) rotate(20deg);
+}
+
+@keyframes shakeMedium {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4px, 4px); }
+  40% { transform: translate(4px, -4px); }
+  60% { transform: translate(-4px, 4px); }
+  80% { transform: translate(4px, -4px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes shakeHard {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-10px, 10px); }
+  40% { transform: translate(10px, -10px); }
+  60% { transform: translate(-10px, 10px); }
+  80% { transform: translate(10px, -10px); }
+  100% { transform: translate(0, 0); }
+}
+
+#stage.shake-medium {
+  animation: shakeMedium 0.4s ease-in-out;
+}
+
+#stage.shake-hard {
+  animation: shakeHard 0.4s ease-in-out;
+}
